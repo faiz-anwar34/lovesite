@@ -81,28 +81,50 @@
             font-size: 0.95rem; 
             line-height: 1.7;
             color: #f3f4f6;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-align: justify;
         }
 
-        .glowing-core {
-            display: inline-block;
-            padding: 12px 35px;
-            background: transparent;
-            color: #e9d5ff;
-            border: 2px solid #e9d5ff;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-family: 'Cinzel', serif;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(233, 213, 255, 0.3);
-            user-select: none; 
-            -webkit-tap-highlight-color: transparent; 
+        /* --- The New Glowing Star Button --- */
+        .star-button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
         }
 
+        .finale-star-btn {
+            font-size: 3.5rem; /* A big, beautiful star */
+            cursor: pointer;
+            display: inline-block;
+            animation: pulseStar 2s infinite;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(216, 180, 254, 0.8));
+            transition: transform 0.2s;
+        }
+
+        .finale-star-btn:active {
+            transform: scale(0.9); /* Satisfying little shrink when she taps it */
+        }
+
+        @keyframes pulseStar {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(216, 180, 254, 0.5)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 25px rgba(216, 180, 254, 1)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(216, 180, 254, 0.5)); }
+        }
+
+        .star-hint {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            color: #d8b4fe;
+            margin-top: 5px;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        /* --- Finale Text --- */
         #finaleScreen {
             position: absolute;
             top: 50%;
@@ -145,6 +167,17 @@
             pointer-events: none;
             opacity: 0;
         }
+
+        .tiny-sparkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            box-shadow: 0 0 5px #e9d5ff;
+        }
     </style>
 </head>
 <body>
@@ -161,8 +194,9 @@
             Thank you for being my peace, and my favorite person.
         </div>
 
-        <div class="glowing-core" id="finaleBtn">
-            Touch the Stars ✨
+        <div class="star-button-container">
+            <div class="finale-star-btn" id="finaleBtn">✨</div>
+            <div class="star-hint">Touch the star</div>
         </div>
     </div>
 
@@ -172,6 +206,7 @@
     </div>
 
     <script>
+        // --- 1. Generate Background Stars ---
         function generateStars() {
             const container = document.getElementById('stars-container');
             const starCount = 80; 
@@ -194,8 +229,53 @@
         }
         generateStars();
 
-        const finaleBtn = document.getElementById('finaleBtn');
+        // --- 2. Interactive Background Sparkles ---
         let finaleTriggered = false; 
+
+        // If she taps the background anywhere else, make a tiny sparkle burst
+        document.addEventListener('touchstart', function(e) {
+            if(e.target.id !== 'finaleBtn' && !finaleTriggered) {
+                createTinySparkles(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, {passive: true});
+
+        document.addEventListener('mousedown', function(e) {
+            if(e.target.id !== 'finaleBtn' && !finaleTriggered) {
+                createTinySparkles(e.clientX, e.clientY);
+            }
+        });
+
+        function createTinySparkles(x, y) {
+            const colors = ['#d8b4fe', '#ffffff', '#e9d5ff'];
+            for (let i = 0; i < 5; i++) { // Just 5 tiny particles
+                let spark = document.createElement('div');
+                spark.classList.add('tiny-sparkle');
+                document.body.appendChild(spark);
+
+                spark.style.left = x + 'px';
+                spark.style.top = y + 'px';
+                spark.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 10 + Math.random() * 30; 
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                spark.animate([
+                    { transform: `translate(0, 0) scale(1)`, opacity: 1 },
+                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 500 + Math.random() * 500,
+                    easing: 'ease-out',
+                    fill: 'forwards' 
+                });
+
+                setTimeout(() => { spark.remove(); }, 1000);
+            }
+        }
+
+        // --- 3. The Grand Finale Explosion ---
+        const finaleBtn = document.getElementById('finaleBtn');
 
         finaleBtn.addEventListener('touchstart', handleFinale, {passive: false});
         finaleBtn.addEventListener('mousedown', handleFinale);
@@ -219,7 +299,7 @@
             }
 
             panel.classList.add('hide');
-            createExplosion(tapX, tapY);
+            createExplosion(tapX, tapY); // The massive explosion
             finale.classList.add('show');
         }
 
