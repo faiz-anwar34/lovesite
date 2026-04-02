@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nilima ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Sacramento&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            transition: all 0.8s ease;
+        }
+
+        h1 {
+            font-family: 'Sacramento', cursive;
+            color: #d81b60;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        p {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            min-height: 50px; /* Keeps the box from jumping around when text changes */
+        }
+
+        input {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #ffccd5;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: border-color 0.3s ease;
+            text-align: center;
+        }
+
+        input:focus {
+            border-color: #d81b60;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background-color: #c2185b;
+        }
+
+        .error-message {
+            color: #d81b60;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            min-height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .unlocked {
+            transform: scale(1.1);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .success-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease 0.5s;
+        }
+
+        .show-success {
+            opacity: 1;
+            pointer-events: all;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="loginBox">
+        <h1>Hello Nilima</h1>
+        <p id="questionText">Answer me honestly... <br><strong>Whom do you love the most?</strong></p>
+        
+        <input type="text" id="passwordInput" placeholder="Type your answer..." autocomplete="off">
+        <br>
+        <button id="actionBtn" onclick="checkPassword()">Answer</button>
+        
+        <div class="error-message" id="errorMsg">Are you sure? Try again! 😉</div>
+    </div>
+
+    <div class="success-screen" id="successScreen">
+        <h1>Finally! ❤️</h1>
+        <p>I love you too, Nilima.</p>
+        <button onclick="nextStage()">Go to Stage 2 ➔</button>
+    </div>
+
+    <script>
+        let currentStage = 0;
+        let clickCount = 0;
+
+        function checkPassword() {
+            let guess = document.getElementById('passwordInput').value.toLowerCase().trim();
+            let questionText = document.getElementById('questionText');
+            let errorMsg = document.getElementById('errorMsg');
+            let btn = document.getElementById('actionBtn');
+            let loginBox = document.getElementById('loginBox');
+            let successScreen = document.getElementById('successScreen');
+
+            if (currentStage === 0) {
+                // Stage 0: Asking who she loves most
+                if (guess === "faiz" || guess === "you" || guess === "u") {
+                    questionText.innerHTML = "<strong>Really? 🤔 I think you love BTS more.</strong>";
+                    document.getElementById('passwordInput').value = ""; // Clear the input box
+                    errorMsg.style.opacity = "0";
+                    currentStage = 1;
+                } else {
+                    errorMsg.innerText = "Wrong answer! Who is your favorite person?";
+                    errorMsg.style.opacity = "1";
+                }
+            } 
+            else if (currentStage === 1) {
+                // Stage 1: The BTS trap
+                if (guess === "bts") {
+                    questionText.innerHTML = "<strong>You don't love me? 🥺<br>Fine. To open this, type 'Faiz' and click confirm twice.</strong>";
+                    document.getElementById('passwordInput').value = "";
+                    errorMsg.style.opacity = "0";
+                    btn.innerText = "Confirm";
+                    currentStage = 2;
+                } else {
+                    errorMsg.innerText = "Be honest... type what you're really thinking (hint: 🎶).";
+                    errorMsg.style.opacity = "1";
+                }
+            }
+            else if (currentStage === 2) {
+                // Stage 2: Final unlock with double click logic
+                if (guess === "faiz") {
+                    if (clickCount === 0) {
+                        btn.innerText = "Are you SURE? Click again!";
+                        clickCount++;
+                        errorMsg.style.opacity = "0";
+                    } else if (clickCount === 1) {
+                        errorMsg.style.opacity = "0";
+                        loginBox.classList.add("unlocked");
+                        successScreen.classList.add("show-success");
+                    }
+                } else {
+                    errorMsg.innerText = "Nope. Type my name!";
+                    errorMsg.style.opacity = "1";
+                    clickCount = 0; // Reset their clicks if they change the text to something wrong
+                    btn.innerText = "Confirm";
+                }
+            }
+        }
+
+        function nextStage() {
+    // This will magically teleport her to the new page we are about to build
+    window.location.href = "stage2.html";
+}
+        
+    </script>
+</body>
+</html>

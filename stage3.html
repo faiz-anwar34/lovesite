@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Nilima ❤️ - Stage 3</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Sacramento&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; 
+            position: relative;
+            touch-action: manipulation; /* Prevents double-tap zooming on mobile */
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            font-size: 24px;
+            animation: floatUp 6s linear infinite;
+            opacity: 0;
+            z-index: 1; 
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0.8; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        .text-container {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+            width: 90%;
+        }
+
+        h1 {
+            font-family: 'Sacramento', cursive;
+            font-size: 4rem;
+            margin: 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+
+        p {
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+        }
+
+        #runawayBtn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            background-color: white;
+            color: #ff758c;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transition: left 0.2s ease-out, top 0.2s ease-out; /* Faster snap for mobile */
+            z-index: 20;
+            font-family: 'Poppins', sans-serif;
+            user-select: none; /* Stops text highlighting if she taps too fast */
+        }
+
+        .pulsing {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        #successModal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+            z-index: 30;
+            width: 80%;
+            max-width: 350px;
+        }
+
+        #successModal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: all;
+        }
+
+        #successModal h2 {
+            color: #ff758c;
+            font-family: 'Sacramento', cursive;
+            font-size: 3rem;
+            margin-top: 0;
+        }
+
+        .next-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="text-container">
+        <h1>Almost there...</h1>
+        <p>Just click the button to see your final surprise!</p>
+    </div>
+
+    <button id="runawayBtn">Click me, Nilima! ❤️</button>
+
+    <div id="successModal">
+        <h2>You caught me!</h2>
+        <p>You're pretty fast for a girl from Kolkata. 😉</p>
+        <button class="next-btn" onclick="goToFinale()">Open The Vault ➔</button>
+    </div>
+
+    <script>
+        // Floating Hearts Animation
+        function createHearts() {
+            const hearts = ['❤️', '💖', '💕', '💗', '💓'];
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 7000);
+            }, 300); 
+        }
+        createHearts(); 
+
+        // The Mobile-Friendly Dodging Logic
+        let tapCount = 0;
+        const btn = document.getElementById('runawayBtn');
+        const modal = document.getElementById('successModal');
+
+        const teasingMessages = [
+            "Oops, missed! 😜",
+            "Too slow!",
+            "Come on Nilima, try harder! 😂",
+            "Not even close!",
+            "Okay, I'll stop... sike! 🏃💨",
+            "You look cute when you're frustrated ❤️"
+        ];
+
+        // This listens for BOTH a screen tap (touchstart) and a mouse click (mousedown)
+        btn.addEventListener('touchstart', handleInteraction, {passive: false});
+        btn.addEventListener('mousedown', handleInteraction);
+
+        function handleInteraction(e) {
+            e.preventDefault(); // This stops the phone from trying to register a tap and a click at the same time
+
+            if (tapCount < 6) {
+                // Change text
+                btn.innerText = teasingMessages[tapCount];
+                tapCount++;
+
+                // Calculate random coordinates safely within the screen bounds
+                const maxX = window.innerWidth - btn.clientWidth - 40;
+                const maxY = window.innerHeight - btn.clientHeight - 40;
+
+                const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+                const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+
+                // Move button
+                btn.style.left = randomX + 'px';
+                btn.style.top = randomY + 'px';
+
+                // Check if she reached the limit
+                if (tapCount === 6) {
+                    btn.innerText = "Okay, okay, you can click it! 🥰";
+                    btn.classList.add('pulsing');
+                }
+            } else {
+                // She finally caught it
+                btn.style.display = 'none'; 
+                modal.classList.add('show'); 
+            }
+        }
+
+        function goToFinale() {
+            window.location.href = "stage4.html";
+        }
+    </script>
+</body>
+</html>

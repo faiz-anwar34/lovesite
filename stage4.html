@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nilima's Universe 💜</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0b0719 0%, #1c1132 50%, #2b164d 100%);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: manipulation; /* Stops annoying double-tap zooming on mobile */
+        }
+
+        #stars-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px #d8b4fe, 0 0 20px #d8b4fe; }
+        }
+
+        .glass-panel {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 85%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: opacity 1s ease, transform 1s ease;
+            /* Ensures it fits nicely on smaller phone screens */
+            max-height: 80vh;
+            overflow-y: auto; 
+        }
+
+        .glass-panel.hide {
+            opacity: 0;
+            transform: scale(0.9) translateY(-50px);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #e9d5ff; 
+            margin-top: 0;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(233, 213, 255, 0.5);
+        }
+
+        .letter-text {
+            font-size: 1rem; /* Slightly smaller for better mobile reading */
+            line-height: 1.6;
+            color: #f3f4f6;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .glowing-core {
+            display: inline-block;
+            padding: 15px 40px;
+            background: transparent;
+            color: #e9d5ff;
+            border: 2px solid #e9d5ff;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(233, 213, 255, 0.3);
+            user-select: none; /* Prevents text highlighting on tap */
+            -webkit-tap-highlight-color: transparent; /* Removes the blue flash on Android taps */
+        }
+
+        #finaleScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease 0.5s; 
+            width: 90%;
+        }
+
+        #finaleScreen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #finaleScreen h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem; /* Adjusted for mobile width */
+            color: #d8b4fe;
+            margin: 0;
+            text-shadow: 0 0 20px #d8b4fe, 0 0 40px #a855f7;
+        }
+
+        #finaleScreen p {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .burst-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #d8b4fe;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="stars-container"></div>
+
+    <div class="glass-panel" id="mainPanel">
+        <h1>Nilima's Universe</h1>
+        
+        <div class="letter-text">
+            To the sweetest girl in Kolkata,<br><br>
+            You chased buttons, you solved riddles, and you put up with my terrible jokes to get here. But the truth is, no puzzle or code could ever fully explain how much you mean to me. <br><br>
+            They say that everyone has their own galaxy inside them. If that's true, getting to know yours has been the best adventure of my life. Your smile, your voice, the way you light up when you talk about the things you love—you are my favorite universe.<br><br>
+            Thank you for being you, Nilima. 
+        </div>
+
+        <div class="glowing-core" id="finaleBtn">
+            Touch the Stars ✨
+        </div>
+    </div>
+
+    <div id="finaleScreen">
+        <h2>I Purple You 💜</h2>
+        <p>- Yours, Faiz</p>
+    </div>
+
+    <script>
+        function generateStars() {
+            const container = document.getElementById('stars-container');
+            const starCount = 100; // Slightly reduced for smoother mobile performance
+
+            for (let i = 0; i < starCount; i++) {
+                let star = document.createElement('div');
+                star.classList.add('star');
+                
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                
+                let size = Math.random() * 3 + 1; 
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.animationDuration = (Math.random() * 3 + 1) + 's';
+                
+                container.appendChild(star);
+            }
+        }
+        generateStars();
+
+        // --- Mobile & Desktop Interaction Logic ---
+        const finaleBtn = document.getElementById('finaleBtn');
+        let finaleTriggered = false; // Prevents the explosion from happening twice
+
+        finaleBtn.addEventListener('touchstart', handleFinale, {passive: false});
+        finaleBtn.addEventListener('mousedown', handleFinale);
+
+        function handleFinale(e) {
+            e.preventDefault(); 
+            if (finaleTriggered) return;
+            finaleTriggered = true;
+
+            const panel = document.getElementById('mainPanel');
+            const finale = document.getElementById('finaleScreen');
+
+            let tapX, tapY;
+
+            // Check if it was a touch (mobile) or a click (computer) to get the exact coordinates
+            if (e.type === 'touchstart') {
+                tapX = e.touches[0].clientX;
+                tapY = e.touches[0].clientY;
+            } else {
+                tapX = e.clientX;
+                tapY = e.clientY;
+            }
+
+            panel.classList.add('hide');
+            createExplosion(tapX, tapY);
+            finale.classList.add('show');
+        }
+
+        function createExplosion(x, y) {
+            const particleCount = 50;
+            const colors = ['#d8b4fe', '#c084fc', '#e9d5ff', '#ffffff'];
+
+            for (let i = 0; i < particleCount; i++) {
+                let particle = document.createElement('div');
+                particle.classList.add('burst-particle');
+                document.body.appendChild(particle);
+
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 40 + Math.random() * 120; // Adjusted slightly for mobile screens
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                particle.animate([
+                    { transform: `translate(0, 0) scale(1)`, opacity: 1 },
+                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 1000 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0, .9, .57, 1)',
+                    fill: 'forwards' 
+                });
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
