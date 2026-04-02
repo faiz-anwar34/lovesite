@@ -81,47 +81,37 @@
             font-size: 0.95rem; 
             line-height: 1.7;
             color: #f3f4f6;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: justify;
         }
 
-        /* --- The New Glowing Star Button --- */
-        .star-button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        .finale-star-btn {
-            font-size: 3.5rem; /* A big, beautiful star */
-            cursor: pointer;
+        /* --- The Restored Glowing Button --- */
+        .glowing-core {
             display: inline-block;
-            animation: pulseStar 2s infinite;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(216, 180, 254, 0.8));
-            transition: transform 0.2s;
+            padding: 12px 35px;
+            background: transparent;
+            color: #e9d5ff;
+            border: 2px solid #e9d5ff;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(233, 213, 255, 0.3);
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent; 
         }
 
-        .finale-star-btn:active {
-            transform: scale(0.9); /* Satisfying little shrink when she taps it */
+        .glowing-core:hover {
+            background: rgba(233, 213, 255, 0.2);
+            box-shadow: 0 0 30px rgba(233, 213, 255, 0.6), inset 0 0 15px rgba(233, 213, 255, 0.4);
+            transform: translateY(-2px);
         }
 
-        @keyframes pulseStar {
-            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(216, 180, 254, 0.5)); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 25px rgba(216, 180, 254, 1)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(216, 180, 254, 0.5)); }
-        }
-
-        .star-hint {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.85rem;
-            color: #d8b4fe;
-            margin-top: 5px;
-            letter-spacing: 1px;
-            opacity: 0.8;
+        .glowing-core:active {
+            transform: scale(0.95); /* A satisfying little tap animation */
         }
 
         /* --- Finale Text --- */
@@ -194,9 +184,8 @@
             Thank you for being my peace, and my favorite person.
         </div>
 
-        <div class="star-button-container">
-            <div class="finale-star-btn" id="finaleBtn">✨</div>
-            <div class="star-hint">Touch the star</div>
+        <div class="glowing-core" id="finaleBtn">
+            Touch the Stars ✨
         </div>
     </div>
 
@@ -232,7 +221,6 @@
         // --- 2. Interactive Background Sparkles ---
         let finaleTriggered = false; 
 
-        // If she taps the background anywhere else, make a tiny sparkle burst
         document.addEventListener('touchstart', function(e) {
             if(e.target.id !== 'finaleBtn' && !finaleTriggered) {
                 createTinySparkles(e.touches[0].clientX, e.touches[0].clientY);
@@ -247,7 +235,7 @@
 
         function createTinySparkles(x, y) {
             const colors = ['#d8b4fe', '#ffffff', '#e9d5ff'];
-            for (let i = 0; i < 5; i++) { // Just 5 tiny particles
+            for (let i = 0; i < 5; i++) { 
                 let spark = document.createElement('div');
                 spark.classList.add('tiny-sparkle');
                 document.body.appendChild(spark);
@@ -299,7 +287,7 @@
             }
 
             panel.classList.add('hide');
-            createExplosion(tapX, tapY); // The massive explosion
+            createExplosion(tapX, tapY); 
             finale.classList.add('show');
         }
 
