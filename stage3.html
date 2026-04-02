@@ -15,7 +15,7 @@
             font-family: 'Poppins', sans-serif;
             overflow: hidden; 
             position: relative;
-            touch-action: manipulation; /* Prevents double-tap zooming on mobile */
+            touch-action: manipulation;
         }
 
         .heart {
@@ -34,7 +34,7 @@
 
         .text-container {
             position: absolute;
-            top: 20%;
+            top: 15%;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
@@ -45,34 +45,36 @@
 
         h1 {
             font-family: 'Sacramento', cursive;
-            font-size: 4rem;
+            font-size: 3.5rem;
             margin: 0;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
         }
 
         p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-shadow: 1px 1px 5px rgba(0,0,0,0.2);
         }
 
+        /* Notice we removed the top/left 50% here so JS has full control */
         #runawayBtn {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 15px 30px;
+            padding: 12px 25px;
             background-color: white;
             color: #ff758c;
             border: none;
             border-radius: 30px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            transition: left 0.2s ease-out, top 0.2s ease-out; /* Faster snap for mobile */
+            transition: left 0.15s ease-out, top 0.15s ease-out; 
             z-index: 20;
             font-family: 'Poppins', sans-serif;
-            user-select: none; /* Stops text highlighting if she taps too fast */
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
         }
 
         .pulsing {
@@ -91,7 +93,7 @@
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
@@ -99,7 +101,7 @@
             pointer-events: none;
             transition: all 0.5s ease;
             z-index: 30;
-            width: 80%;
+            width: 85%;
             max-width: 350px;
         }
 
@@ -112,12 +114,13 @@
         #successModal h2 {
             color: #ff758c;
             font-family: 'Sacramento', cursive;
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-top: 0;
+            margin-bottom: 10px;
         }
 
         .next-btn {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 12px 30px;
             background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
             color: white;
@@ -140,12 +143,11 @@
 
     <div id="successModal">
         <h2>You caught me!</h2>
-        <p>You're pretty fast for a girl from Kolkata. 😉</p>
+        <p>Your sweet, innocent self is surprisingly fast! 😉</p>
         <button class="next-btn" onclick="goToFinale()">Open The Vault ➔</button>
     </div>
 
     <script>
-        // Floating Hearts Animation
         function createHearts() {
             const hearts = ['❤️', '💖', '💕', '💗', '💓'];
             setInterval(() => {
@@ -166,7 +168,6 @@
         }
         createHearts(); 
 
-        // The Mobile-Friendly Dodging Logic
         let tapCount = 0;
         const btn = document.getElementById('runawayBtn');
         const modal = document.getElementById('successModal');
@@ -174,42 +175,37 @@
         const teasingMessages = [
             "Oops, missed! 😜",
             "Too slow!",
-            "Come on Nilima, try harder! 😂",
+            "Come on baby, try harder! 😂",
             "Not even close!",
             "Okay, I'll stop... sike! 🏃💨",
-            "You look cute when you're frustrated ❤️"
+            "You look so cute when you're trying ❤️"
         ];
 
-        // This listens for BOTH a screen tap (touchstart) and a mouse click (mousedown)
         btn.addEventListener('touchstart', handleInteraction, {passive: false});
         btn.addEventListener('mousedown', handleInteraction);
 
         function handleInteraction(e) {
-            e.preventDefault(); // This stops the phone from trying to register a tap and a click at the same time
+            e.preventDefault(); 
 
             if (tapCount < 6) {
-                // Change text
                 btn.innerText = teasingMessages[tapCount];
                 tapCount++;
 
-                // Calculate random coordinates safely within the screen bounds
-                const maxX = window.innerWidth - btn.clientWidth - 40;
-                const maxY = window.innerHeight - btn.clientHeight - 40;
+                // FIX: Use viewport percentages (vw/vh) so it NEVER leaves the screen.
+                // Keeps the button between 10% and 75% of the screen width/height.
+                const randomX = Math.floor(Math.random() * 65) + 10; 
+                const randomY = Math.floor(Math.random() * 65) + 15; 
 
-                const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-                const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+                // Remove the centering transform so our percentages are absolute
+                btn.style.transform = 'none';
+                btn.style.left = randomX + 'vw';
+                btn.style.top = randomY + 'vh';
 
-                // Move button
-                btn.style.left = randomX + 'px';
-                btn.style.top = randomY + 'px';
-
-                // Check if she reached the limit
                 if (tapCount === 6) {
                     btn.innerText = "Okay, okay, you can click it! 🥰";
                     btn.classList.add('pulsing');
                 }
             } else {
-                // She finally caught it
                 btn.style.display = 'none'; 
                 modal.classList.add('show'); 
             }

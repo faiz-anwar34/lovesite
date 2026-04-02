@@ -18,7 +18,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            touch-action: manipulation; /* Stops annoying double-tap zooming on mobile */
+            touch-action: manipulation; 
         }
 
         #stars-container {
@@ -51,14 +51,13 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 40px;
+            padding: 30px;
             max-width: 600px;
             width: 85%;
             text-align: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             transition: opacity 1s ease, transform 1s ease;
-            /* Ensures it fits nicely on smaller phone screens */
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto; 
         }
 
@@ -70,7 +69,7 @@
 
         h1 {
             font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: #e9d5ff; 
             margin-top: 0;
             margin-bottom: 20px;
@@ -79,8 +78,8 @@
         }
 
         .letter-text {
-            font-size: 1rem; /* Slightly smaller for better mobile reading */
-            line-height: 1.6;
+            font-size: 0.95rem; 
+            line-height: 1.7;
             color: #f3f4f6;
             margin-bottom: 30px;
             text-align: justify;
@@ -88,20 +87,20 @@
 
         .glowing-core {
             display: inline-block;
-            padding: 15px 40px;
+            padding: 12px 35px;
             background: transparent;
             color: #e9d5ff;
             border: 2px solid #e9d5ff;
             border-radius: 30px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-family: 'Cinzel', serif;
             cursor: pointer;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
             box-shadow: 0 0 15px rgba(233, 213, 255, 0.3);
-            user-select: none; /* Prevents text highlighting on tap */
-            -webkit-tap-highlight-color: transparent; /* Removes the blue flash on Android taps */
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent; 
         }
 
         #finaleScreen {
@@ -124,14 +123,14 @@
 
         #finaleScreen h2 {
             font-family: 'Cinzel', serif;
-            font-size: 3.5rem; /* Adjusted for mobile width */
+            font-size: 3rem; 
             color: #d8b4fe;
             margin: 0;
             text-shadow: 0 0 20px #d8b4fe, 0 0 40px #a855f7;
         }
 
         #finaleScreen p {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #fff;
             margin-top: 10px;
             font-style: italic;
@@ -156,10 +155,10 @@
         <h1>Nilima's Universe</h1>
         
         <div class="letter-text">
-            To the sweetest girl in Kolkata,<br><br>
-            You chased buttons, you solved riddles, and you put up with my terrible jokes to get here. But the truth is, no puzzle or code could ever fully explain how much you mean to me. <br><br>
-            They say that everyone has their own galaxy inside them. If that's true, getting to know yours has been the best adventure of my life. Your smile, your voice, the way you light up when you talk about the things you love—you are my favorite universe.<br><br>
-            Thank you for being you, Nilima. 
+            To my beautiful Nilima,<br><br>
+            You chased buttons, you solved riddles, and you put up with my terrible jokes to get here. But the truth is, no puzzle or code could ever fully explain how much you mean to me.<br><br>
+            What I love most isn't just your smile or your sweet voice—it's your pure, innocent heart. In a world that can be so complicated, your innocence makes everything feel simple and right. You look at the world with such kindness, and the sweetness you carry with you makes me fall for you more every single day.<br><br>
+            Thank you for being my peace, and my favorite person.
         </div>
 
         <div class="glowing-core" id="finaleBtn">
@@ -175,7 +174,7 @@
     <script>
         function generateStars() {
             const container = document.getElementById('stars-container');
-            const starCount = 100; // Slightly reduced for smoother mobile performance
+            const starCount = 80; 
 
             for (let i = 0; i < starCount; i++) {
                 let star = document.createElement('div');
@@ -195,9 +194,8 @@
         }
         generateStars();
 
-        // --- Mobile & Desktop Interaction Logic ---
         const finaleBtn = document.getElementById('finaleBtn');
-        let finaleTriggered = false; // Prevents the explosion from happening twice
+        let finaleTriggered = false; 
 
         finaleBtn.addEventListener('touchstart', handleFinale, {passive: false});
         finaleBtn.addEventListener('mousedown', handleFinale);
@@ -212,7 +210,6 @@
 
             let tapX, tapY;
 
-            // Check if it was a touch (mobile) or a click (computer) to get the exact coordinates
             if (e.type === 'touchstart') {
                 tapX = e.touches[0].clientX;
                 tapY = e.touches[0].clientY;
@@ -227,7 +224,7 @@
         }
 
         function createExplosion(x, y) {
-            const particleCount = 50;
+            const particleCount = 40;
             const colors = ['#d8b4fe', '#c084fc', '#e9d5ff', '#ffffff'];
 
             for (let i = 0; i < particleCount; i++) {
@@ -241,7 +238,7 @@
                 particle.style.background = colors[Math.floor(Math.random() * colors.length)];
 
                 const angle = Math.random() * Math.PI * 2;
-                const velocity = 40 + Math.random() * 120; // Adjusted slightly for mobile screens
+                const velocity = 30 + Math.random() * 100; 
                 const tx = Math.cos(angle) * velocity;
                 const ty = Math.sin(angle) * velocity;
 
