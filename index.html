@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hey Nilu 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --pink:   #e91e8c;
+    --rose:   #ff6bb5;
+    --lilac:  #c77dff;
+    --peach:  #ffb3c6;
+    --cream:  #fff0f6;
+    --deep:   #7b003c;
+    --soft:   #fce4ec;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(145deg, #ffe0ee 0%, #f8c8e0 25%, #e8c8f8 55%, #ffd6e8 100%);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='20'%3E🐾%3C/text%3E%3C/svg%3E"), auto;
+  }
+
+  /* ── Floating background blobs ── */
+  .blob { position: fixed; border-radius: 50%; filter: blur(60px); opacity: 0.25; pointer-events: none; z-index: 0; animation: drift 10s ease-in-out infinite alternate; }
+  .blob1 { width: 300px; height: 300px; background: #ff9ecd; top: -60px; left: -80px; animation-delay: 0s; }
+  .blob2 { width: 260px; height: 260px; background: #c77dff; bottom: 100px; right: -60px; animation-delay: -4s; }
+  .blob3 { width: 200px; height: 200px; background: #ffb3c6; top: 40%; left: 40%; animation-delay: -7s; }
+  @keyframes drift { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(30px,20px) scale(1.1)} }
+
+  /* ── Falling petals ── */
+  .petal { position: fixed; font-size: 18px; top: -30px; animation: fall linear infinite; pointer-events: none; z-index: 0; opacity: 0.55; }
+  @keyframes fall { 0%{transform:translateY(-30px) rotate(0deg);opacity:.6} 100%{transform:translateY(110vh) rotate(360deg);opacity:0} }
+
+  /* ── Wrapper ── */
+  .wrap { position: relative; z-index: 1; max-width: 500px; margin: 0 auto; padding: 0 12px 60px; }
+
+  /* ── Header ── */
+  .header { text-align: center; padding: 32px 0 18px; }
+  .header-emojis span { font-size: 38px; display: inline-block; animation: floatie 3s ease-in-out infinite; margin: 0 6px; }
+  .header-emojis span:nth-child(2) { animation-delay: .4s; }
+  .header-emojis span:nth-child(3) { animation-delay: .8s; }
+  @keyframes floatie { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  h1 { font-family: 'Pacifico', cursive; font-size: 34px; color: var(--deep); margin: 8px 0 4px;
+       text-shadow: 0 3px 12px rgba(123,0,60,.2); }
+  .subtitle { color: var(--pink); font-size: 14px; font-weight: 700; }
+
+  /* ── Love note ticker ── */
+  .note-box {
+    background: rgba(255,255,255,.65); backdrop-filter: blur(12px);
+    border-radius: 20px; border: 2px solid var(--peach);
+    padding: 16px 22px; margin: 14px 0;
+    text-align: center; min-height: 62px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 28px rgba(233,30,140,.1);
+  }
+  .note-text { color: var(--deep); font-weight: 800; font-size: 15px; line-height: 1.5;
+               animation: noteSlide 5s ease-in-out; }
+  @keyframes noteSlide { 0%{opacity:0;transform:translateY(10px)} 15%,80%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-10px)} }
+
+  /* ── Big cat ── */
+  .hero-cat { text-align: center; position: relative; margin: 6px 0 10px; }
+  .hero-cat button { background: none; border: none; cursor: pointer; font-size: 60px;
+                     animation: heartbeat 2s ease-in-out infinite; display: inline-block; }
+  @keyframes heartbeat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.18)} }
+  .speech-bubble { position: absolute; left: 50%; top: -52px; transform: translateX(5%);
+    background: white; border-radius: 14px 14px 14px 4px; padding: 8px 14px;
+    font-size: 13px; color: var(--deep); font-weight: 800; white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12); border: 1.5px solid var(--peach);
+    animation: popIn .3s ease; pointer-events: none; }
+  @keyframes popIn { 0%{transform:translateX(5%) scale(.4);opacity:0} 80%{transform:translateX(5%) scale(1.05)} 100%{transform:translateX(5%) scale(1);opacity:1} }
+
+  /* ── Tabs ── */
+  .tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 4px 2px 0; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { flex-shrink: 0; padding: 9px 15px; border-radius: 22px; border: none; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px;
+    background: rgba(255,255,255,.65); color: var(--deep);
+    box-shadow: 0 2px 6px rgba(0,0,0,.08); transition: all .2s; }
+  .tab-btn.active { background: linear-gradient(135deg, var(--pink), var(--lilac)); color: white;
+    box-shadow: 0 6px 18px rgba(233,30,140,.35); transform: translateY(-2px); }
+  .tab-btn:hover:not(.active) { transform: translateY(-1px); background: rgba(255,255,255,.85); }
+
+  /* ── Panel ── */
+  .panel { background: rgba(255,255,255,.58); backdrop-filter: blur(12px);
+    border-radius: 24px; border: 1.5px solid var(--peach);
+    box-shadow: 0 10px 40px rgba(233,30,140,.1); padding: 20px 16px; margin-top: 12px; }
+  .panel-title { text-align: center; color: var(--deep); font-weight: 900; font-size: 15px; margin-bottom: 14px; }
+
+  /* ── Cat clicker ── */
+  .cat-arena { position: relative; height: 270px;
+    background: linear-gradient(135deg, #fff0f5, #fce4ec, #f3e5f5);
+    border-radius: 20px; border: 2px dashed var(--peach); overflow: hidden; }
+  .arena-paw { position: absolute; font-size: 40px; opacity: .07; pointer-events: none; }
+  .cat-btn { position: absolute; background: none; border: none; cursor: pointer;
+    font-size: 34px; transition: font-size .15s;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,.15)); animation: wiggle 3s ease-in-out infinite; }
+  .cat-btn.bounce { font-size: 44px; animation: bounce .4s ease; }
+  @keyframes wiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-8deg)} 75%{transform:rotate(8deg)} }
+  @keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5)} }
+  .cat-bubble { position: absolute; background: white; border-radius: 12px 12px 12px 4px;
+    padding: 5px 12px; font-size: 12px; color: var(--deep); font-weight: 800; white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(0,0,0,.12); z-index: 5; border: 1px solid var(--peach);
+    animation: popIn .3s ease; pointer-events: none; }
+  .floatie { position: absolute; font-size: 16px; font-weight: 900; color: var(--pink);
+    pointer-events: none; z-index: 10; animation: floatUp 1.1s ease-out forwards; }
+  @keyframes floatUp { 0%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-55px)} }
+  .score-bar { text-align: center; color: var(--deep); font-weight: 800; font-size: 14px; margin-bottom: 10px; }
+  .score-bar span { color: var(--pink); font-size: 17px; }
+
+  /* ── Scramble ── */
+  .scramble-hint { font-size: 13px; color: var(--lilac); font-style: italic; font-weight: 700; margin-bottom: 12px; text-align: center; }
+  .letter-tiles { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .tile { display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; background: white; border-radius: 10px;
+    font-size: 20px; font-weight: 900; color: var(--deep);
+    box-shadow: 0 3px 8px rgba(0,0,0,.12); border: 1.5px solid var(--peach); }
+  .scramble-input { border: 2.5px solid var(--peach); border-radius: 14px; padding: 10px 16px;
+    font-size: 17px; font-family: 'Nunito', sans-serif; font-weight: 800;
+    letter-spacing: 5px; text-align: center; outline: none; width: 85%; max-width: 230px;
+    display: block; margin: 0 auto 12px; transition: border-color .2s; background: white; }
+  .scramble-input.correct { border-color: #4caf50; background: #e8f5e9; }
+  .scramble-input.wrong   { border-color: #f44336; background: #ffebee; animation: shake .3s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+  .btn-row { display: flex; gap: 10px; justify-content: center; }
+  .btn-primary { background: linear-gradient(135deg, var(--pink), var(--lilac)); color: white;
+    border: none; border-radius: 14px; padding: 10px 24px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(233,30,140,.3); transition: transform .15s; }
+  .btn-primary:active { transform: scale(.96); }
+  .btn-secondary { background: var(--peach); color: var(--deep); border: none; border-radius: 14px;
+    padding: 10px 18px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px;
+    cursor: pointer; transition: transform .15s; }
+  .btn-secondary:active { transform: scale(.96); }
+  .status-msg { text-align: center; font-weight: 900; font-size: 16px; margin-top: 10px; }
+  .status-msg.ok  { color: #4caf50; }
+  .status-msg.err { color: #f44336; }
+  .progress-text { text-align: center; font-weight: 800; font-size: 13px; color: var(--deep); margin-bottom: 8px; }
+
+  /* ── Memory game ── */
+  .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 300px; margin: 0 auto 14px; }
+  .mem-card { height: 62px; border-radius: 14px; border: 2px solid var(--peach);
+    font-size: 11px; cursor: pointer; transition: all .25s;
+    background: linear-gradient(135deg, var(--rose), var(--lilac));
+    box-shadow: 0 3px 10px rgba(0,0,0,.1); }
+  .mem-card.shown { background: linear-gradient(135deg, #fce4ec, #f3e5f5); font-size: 26px; }
+  .mem-card.matched { opacity: .5; cursor: default; font-size: 26px;
+    background: linear-gradient(135deg, #fce4ec, #f3e5f5); }
+  .win-banner { background: linear-gradient(135deg, var(--pink), var(--lilac));
+    border-radius: 16px; padding: 14px; text-align: center; color: white;
+    font-weight: 800; font-size: 15px; margin-bottom: 12px; line-height: 1.5;
+    animation: popIn .4s ease; box-shadow: 0 6px 20px rgba(233,30,140,.3); }
+  .stats-row { text-align: center; font-weight: 800; font-size: 14px; color: var(--deep); margin-bottom: 10px; }
+
+  /* ── Catch cat game ── */
+  .game-arena { position: relative; height: 230px;
+    background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+    border-radius: 18px; border: 2px dashed var(--peach); overflow: hidden; }
+  .game-overlay { position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+    background: rgba(255,255,255,.65); backdrop-filter: blur(6px); border-radius: 16px; }
+  .game-cat { position: absolute; background: none; border: none; cursor: pointer;
+    font-size: 38px; transition: left .12s, top .12s;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,.2)); animation: wiggle .5s infinite; }
+
+  /* ── Comfort tips ── */
+  .tip-card { display: flex; align-items: center; gap: 14px; padding: 13px 16px;
+    border-radius: 16px; border: 1.5px solid var(--peach);
+    box-shadow: 0 2px 8px rgba(233,30,140,.07); margin-bottom: 10px; }
+  .tip-card:nth-child(odd)  { background: linear-gradient(135deg, #fce4ec, #fff8fb); }
+  .tip-card:nth-child(even) { background: linear-gradient(135deg, #f3e5f5, #fdf8ff); }
+  .tip-icon { font-size: 28px; flex-shrink: 0; }
+  .tip-text { color: var(--deep); font-size: 14px; font-weight: 700; line-height: 1.4; }
+  .love-footer { background: linear-gradient(135deg, var(--pink), var(--lilac));
+    border-radius: 18px; padding: 18px 20px; text-align: center; color: white;
+    font-weight: 800; font-size: 15px; line-height: 1.6; margin-top: 14px;
+    box-shadow: 0 6px 22px rgba(233,30,140,.3); }
+
+  /* ── Page footer ── */
+  .page-footer { text-align: center; color: var(--deep); font-size: 13px; font-weight: 800;
+    margin-top: 24px; opacity: .75; }
+</style>
+</head>
+<body>
+
+<!-- Background blobs -->
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<!-- Falling petals -->
+<div id="petals"></div>
+
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-emojis">
+      <span>🌸</span><span>🐱</span><span>💕</span>
+    </div>
+    <h1>Hey Nilu! 💖</h1>
+    <p class="subtitle">This whole page was made just for you, with all my heart 🌷</p>
+  </div>
+
+  <!-- Love note ticker -->
+  <div class="note-box">
+    <p class="note-text" id="noteText">Loading love...</p>
+  </div>
+
+  <!-- Big cat -->
+  <div class="hero-cat">
+    <div class="speech-bubble" id="heroBubble">Meow! You're my favorite human! 🐾</div>
+    <button onclick="rotateBubble()" title="Click me!">😻</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs" id="tabBar"></div>
+
+  <!-- Panel -->
+  <div class="panel" id="mainPanel"></div>
+
+</div>
+
+<div class="page-footer">Made with every bit of love 💖 — Faiz, just for Nilu 🌸</div>
+
+<script>
+/* ─────────────── DATA ─────────────── */
+const LOVE_NOTES = [
+  "You are the bravest, most beautiful girl I know 🌸",
+  "This pain is temporary, but my love for you is forever 💕",
+  "Even on your hardest days, you are absolutely glowing ✨",
+  "You mean the whole universe to me — no exaggeration 🌙",
+  "Rest today, my love. The world can wait for you 🤍",
+  "Hot chocolate + warm blanket + me = your perfect cure ☕",
+  "You're not just cute — you're dangerously adorable 😍",
+  "I'd go through a thousand cramps just to make yours stop 💪",
+  "Your smile is the reason I smile every single day 🌷",
+  "Anyone who handles this much pain is a total superhero 🦸‍♀️",
+  "You are my comfort, my sunshine, my whole happy place ☀️",
+  "I love you more than cats love naps — and that's a LOT 😹",
+  "You deserve all the warmth, cuddles, and chocolate today 🍫",
+  "The stars literally shine brighter because of you 🌟",
+  "Crying is okay. Resting is okay. You are always okay 💖",
+  "Even when you're in pain, you're still the prettiest girl 🌺",
+  "I would fight the cramps for you if I could, pinky promise 🤙",
+  "You are soft, strong, and absolutely magical — all at once 🪄",
+  "Nobody else makes ordinary moments feel this special 🎀",
+  "I am so lucky that you exist in my world, Nilu 🌈",
+  "A little pain today won't dim your light — you're too bright 💫",
+  "You are someone's reason to believe in good things 🕊️",
+  "Warm hugs incoming — close your eyes and feel them 🫂",
+  "Today is a rest day. Tomorrow is a glow day. Both are yours 💅",
+];
+
+const CAT_MOODS  = ["😺","😸","🐱","😻","🙀","😹","🐈","😾","🐾","🫶"];
+const CAT_SPEECH = [
+  "Purrrr~ 🐾","Meow! I love you! 😸","Need a hug? I'm here! 🤗",
+  "*headbutt* Feel better! 💕","Purr purr purr... 😻",
+  "Biscuits for you! 🐾","Meow = I love you! 💖",
+  "*slow blink* 😌 = kitty kiss!","You're my fav human! 🌸",
+  "Stay cozy! I'll guard you! 🐱","You smell nice 😸",
+  "Pet me too please!! 🥺","I will cuddle you all day 🫶",
+];
+
+const SCRAMBLE_WORDS = [
+  { word:"NILIMA",   hint:"That's YOU, beautiful 💕" },
+  { word:"SUNSHINE", hint:"What you are to me ☀️" },
+  { word:"BRAVE",    hint:"What you are right now 💪" },
+  { word:"FOREVER",  hint:"How long I'll be here for you 🤍" },
+  { word:"PRECIOUS", hint:"Exactly how I see you 🌸" },
+  { word:"WARMTH",   hint:"What your smile gives me 🌷" },
+  { word:"MAGIC",    hint:"What you are to everyone around you 🪄" },
+  { word:"DARLING",  hint:"What I call you in my heart 🎀" },
+];
+
+const TIPS = [
+  { icon:"🌡️", text:"Place a heat pad on your tummy — instant relief!" },
+  { icon:"🍫", text:"Eat dark chocolate — magic for mood AND cramps!" },
+  { icon:"🧘", text:"Try child's pose — it relaxes your lower back perfectly!" },
+  { icon:"☕", text:"Sip ginger tea — nature's very own painkiller!" },
+  { icon:"💧", text:"Drink lots of water — hydration genuinely reduces cramps!" },
+  { icon:"😴", text:"Sleep without any guilt — your body deserves full rest today!" },
+  { icon:"🛁", text:"A warm bath melts all the tension away — try it!" },
+  { icon:"🎵", text:"Play your favorite playlist — music is real medicine!" },
+  { icon:"🍓", text:"Eat strawberries or bananas — great anti-inflammatory snacks!" },
+  { icon:"🫂", text:"Ask for a hug — physical warmth lowers cortisol and pain!" },
+];
+
+const HERO_BUBBLES = [
+  "Meow! You're my favorite human! 🐾",
+  "I will cuddle you forever 🫶",
+  "You smell like flowers and love 🌸",
+  "Purrrr... everything will be okay 💕",
+  "I guard you while you rest 😺",
+  "*slow blink* = I love you 😻",
+];
+
+const MEMORY_PAIRS = ["🌸","🐱","💕","☕","🌙","🍫","🌷","⭐"];
+
+/* ─────────────── PETALS ─────────────── */
+const petalContainer = document.getElementById('petals');
+const PETALS = ["🌸","🌺","✿","🌷","💮"];
+for(let i=0;i<14;i++){
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.textContent = PETALS[i % PETALS.length];
+  p.style.cssText = `left:${Math.random()*100}%;animation-duration:${6+Math.random()*7}s;animation-delay:${-Math.random()*10}s;font-size:${12+Math.random()*12}px;`;
+  petalContainer.appendChild(p);
+}
+
+/* ─────────────── LOVE NOTE TICKER ─────────────── */
+let noteIdx = 0;
+function showNote(){
+  const el = document.getElementById('noteText');
+  el.style.animation = 'none'; el.offsetHeight;
+  el.style.animation = 'noteSlide 5s ease-in-out';
+  el.textContent = LOVE_NOTES[noteIdx];
+  noteIdx = (noteIdx + 1) % LOVE_NOTES.length;
+}
+showNote();
+setInterval(showNote, 5000);
+
+/* ─────────────── HERO CAT BUBBLE ─────────────── */
+let bubbleIdx = 0;
+function rotateBubble(){
+  bubbleIdx = (bubbleIdx+1) % HERO_BUBBLES.length;
+  const b = document.getElementById('heroBubble');
+  b.style.animation='none'; b.offsetHeight; b.style.animation='popIn .3s ease';
+  b.textContent = HERO_BUBBLES[bubbleIdx];
+}
+setInterval(rotateBubble, 4000);
+
+/* ─────────────── TABS ─────────────── */
+const TABS = [
+  {label:"🐱 Pet Cats",  id:"cats"},
+  {label:"🔤 Unscramble",id:"word"},
+  {label:"🃏 Memory",    id:"memory"},
+  {label:"🏃 Catch Cat", id:"catch"},
+  {label:"💆 Comfort",   id:"tips"},
+];
+let activeTab = 0;
+const tabBar   = document.getElementById('tabBar');
+const mainPanel = document.getElementById('mainPanel');
+
+function renderTabs(){
+  tabBar.innerHTML = TABS.map((t,i)=>
+    `<button class="tab-btn${i===activeTab?' active':''}" onclick="switchTab(${i})">${t.label}</button>`
+  ).join('');
+}
+
+function switchTab(i){ activeTab=i; renderTabs(); renderPanel(); }
+renderTabs();
+
+/* ─────────────── PANEL ROUTER ─────────────── */
+function renderPanel(){
+  const tab = TABS[activeTab].id;
+  if(tab==='cats')   renderCats();
+  else if(tab==='word')   renderScramble();
+  else if(tab==='memory') renderMemory();
+  else if(tab==='catch')  renderCatch();
+  else if(tab==='tips')   renderTips();
+}
+
+/* ══════════════ CAT CLICKER ══════════════ */
+let catScore = 0;
+let cats = [];
+
+function renderCats(){
+  catScore = 0;
+  cats = Array.from({length:8},(_,i)=>({
+    id:i, emoji:CAT_MOODS[i%CAT_MOODS.length],
+    x:4+Math.random()*78, y:6+Math.random()*74,
+    bubble:null
+  }));
+  mainPanel.innerHTML = `
+    <p class="score-bar">🐾 Tap the cats — every tap is a real hug! &nbsp;<span id="catScore">0 hugs! 💖</span></p>
+    <div class="cat-arena" id="catArena">
+      <span class="arena-paw" style="left:10%;top:80%">🐾</span>
+      <span class="arena-paw" style="left:85%;top:10%">🐾</span>
+      <span class="arena-paw" style="left:50%;top:45%">🐾</span>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--pink);font-weight:700;margin-top:8px">
+      Every single tap = a hug from me to you 🌸
+    </p>`;
+  drawCats();
+}
+
+function drawCats(){
+  const arena = document.getElementById('catArena');
+  if(!arena) return;
+  // keep static elements
+  const statics = Array.from(arena.querySelectorAll('.arena-paw,.floatie,.cat-bubble'));
+  cats.forEach(cat=>{
+    let el = document.getElementById(`cat-${cat.id}`);
+    if(!el){ el=document.createElement('button'); el.className='cat-btn'; el.id=`cat-${cat.id}`; arena.appendChild(el); }
+    el.style.left=cat.x+'%'; el.style.top=cat.y+'%';
+    el.textContent=cat.emoji;
+    el.onclick=()=>petCat(cat.id);
+  });
+}
+
+function petCat(id){
+  catScore++;
+  document.getElementById('catScore').textContent = `${catScore} hug${catScore===1?'':'s'}! 💖`;
+  const cat = cats.find(c=>c.id===id);
+  cat.emoji = CAT_MOODS[Math.floor(Math.random()*CAT_MOODS.length)];
+  const el = document.getElementById(`cat-${id}`);
+  el.textContent = cat.emoji;
+  el.classList.add('bounce');
+  setTimeout(()=>el.classList.remove('bounce'),400);
+
+  // floating heart
+  const arena = document.getElementById('catArena');
+  const f = document.createElement('div');
+  f.className='floatie'; f.textContent='💕 +1';
+  f.style.left=(20+Math.random()*60)+'%'; f.style.top='50%';
+  arena.appendChild(f);
+  setTimeout(()=>f.remove(),1200);
+
+  // speech bubble
+  const speech = CAT_SPEECH[Math.floor(Math.random()*CAT_SPEECH.length)];
+  const b = document.createElement('div');
+  b.className='cat-bubble';
+  b.textContent=speech;
+  b.style.left=Math.min(cat.x,58)+'%';
+  b.style.top=Math.max(2,cat.y-18)+'%';
+  arena.appendChild(b);
+  setTimeout(()=>b.remove(),1800);
+
+  // random wander
+  cat.x = 4+Math.random()*78; cat.y = 6+Math.random()*74;
+  setTimeout(()=>{
+    el.style.left=cat.x+'%'; el.style.top=cat.y+'%';
+  },200);
+}
+
+/* ══════════════ WORD SCRAMBLE ══════════════ */
+let wIdx=0, wSolved=0, wScrambled=[];
+
+function shuffleWord(w){
+  let a=w.split('');
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a.join('')===w?shuffleWord(w):a.join('');
+}
+
+function renderScramble(){
+  wIdx=0; wSolved=0;
+  wScrambled = SCRAMBLE_WORDS.map(w=>shuffleWord(w.word));
+  drawScramble();
+}
+
+function drawScramble(){
+  const w = SCRAMBLE_WORDS[wIdx];
+  mainPanel.innerHTML=`
+    <p class="progress-text">✨ <span id="wSolved">${wSolved}</span> / ${SCRAMBLE_WORDS.length} words solved!</p>
+    <div style="background:linear-gradient(135deg,#f3e5f5,#fce4ec);border-radius:18px;padding:22px 16px;border:2px solid var(--lilac)">
+      <p class="scramble-hint">💡 Hint: ${w.hint}</p>
+      <div class="letter-tiles">${wScrambled[wIdx].split('').map(ch=>`<span class="tile">${ch}</span>`).join('')}</div>
+      <input class="scramble-input" id="wInput" type="text" placeholder="Type answer..." oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkWord()" />
+      <div class="btn-row">
+        <button class="btn-primary" onclick="checkWord()">Check ✓</button>
+        <button class="btn-secondary" onclick="skipWord()">Skip →</button>
+      </div>
+      <p class="status-msg" id="wStatus"></p>
+    </div>`;
+}
+
+function checkWord(){
+  const inp = document.getElementById('wInput');
+  if(!inp) return;
+  if(inp.value.trim()===SCRAMBLE_WORDS[wIdx].word){
+    inp.className='scramble-input correct';
+    document.getElementById('wStatus').className='status-msg ok';
+    document.getElementById('wStatus').textContent='Brilliant! You nailed it! 🎉';
+    wSolved++; wIdx=(wIdx+1)%SCRAMBLE_WORDS.length;
+    setTimeout(drawScramble,1400);
+  } else {
+    inp.className='scramble-input wrong';
+    document.getElementById('wStatus').className='status-msg err';
+    document.getElementById('wStatus').textContent='So close! Try again 💪';
+    setTimeout(()=>{inp.className='scramble-input';document.getElementById('wStatus').textContent='';},900);
+  }
+}
+
+function skipWord(){
+  wIdx=(wIdx+1)%SCRAMBLE_WORDS.length;
+  drawScramble();
+}
+
+/* ══════════════ MEMORY GAME ══════════════ */
+let memCards=[], memSelected=[], memMoves=0, memWon=false, memChecking=false;
+
+function renderMemory(){
+  memWon=false; memMoves=0; memSelected=[]; memChecking=false;
+  memCards=[...MEMORY_PAIRS,...MEMORY_PAIRS]
+    .map((v,i)=>({id:i,value:v,flipped:false,matched:false}))
+    .sort(()=>Math.random()-.5);
+  drawMemory();
+}
+
+function drawMemory(){
+  const winHTML = memWon
+    ? `<div class="win-banner">🎉 Amazing Nilu! You won in just ${memMoves} moves!<br><span style="font-size:13px">You're officially a genius AND beautiful 💖</span></div>`
+    : '';
+  mainPanel.innerHTML=`
+    ${winHTML}
+    <p class="stats-row">🃏 Moves: <strong>${memMoves}</strong> &nbsp;|&nbsp; Matched: <strong>${memCards.filter(c=>c.matched).length/2} / ${MEMORY_PAIRS.length}</strong></p>
+    <div class="mem-grid" id="memGrid">
+      ${memCards.map(c=>`<button class="mem-card${c.flipped||c.matched?' shown':''}${c.matched?' matched':''}" onclick="flipCard(${c.id})">${c.flipped||c.matched?c.value:'🐾'}</button>`).join('')}
+    </div>
+    <div style="text-align:center"><button class="btn-secondary" onclick="renderMemory()">New Game 🔄</button></div>`;
+}
+
+function flipCard(id){
+  if(memChecking) return;
+  const card=memCards.find(c=>c.id===id);
+  if(!card||card.flipped||card.matched||memSelected.length>=2) return;
+  card.flipped=true; memSelected.push(id); drawMemory();
+  if(memSelected.length===2){
+    memMoves++;
+    const [a,b]=memSelected.map(sid=>memCards.find(c=>c.id===sid));
+    memChecking=true;
+    if(a.value===b.value){
+      setTimeout(()=>{
+        memSelected.forEach(sid=>memCards.find(c=>c.id===sid).matched=true);
+        memSelected=[]; memChecking=false;
+        if(memCards.every(c=>c.matched)) memWon=true;
+        drawMemory();
+      },500);
+    } else {
+      setTimeout(()=>{
+        memSelected.forEach(sid=>memCards.find(c=>c.id===sid).flipped=false);
+        memSelected=[]; memChecking=false; drawMemory();
+      },900);
+    }
+  }
+}
+
+/* ══════════════ CATCH CAT ══════════════ */
+let catchScore=0, catchBest=0, catchTime=0, catchRunning=false, catchTimer=null;
+
+function renderCatch(){
+  catchScore=0; catchTime=25; catchRunning=false;
+  clearInterval(catchTimer);
+  mainPanel.innerHTML=`
+    <p class="stats-row">⏱ Time: <strong id="cTime">25s</strong> &nbsp;|&nbsp; Score: <strong id="cScore">0</strong> &nbsp;|&nbsp; Best: <strong id="cBest">${catchBest}</strong></p>
+    <div class="game-arena" id="gameArena">
+      <div class="game-overlay" id="gameOverlay">
+        <span style="font-size:46px">🐱</span>
+        <p style="color:var(--deep);font-weight:800;font-size:15px;text-align:center;padding:0 16px">
+          Catch the naughty cat as many times as you can!
+        </p>
+        <button class="btn-primary" onclick="startCatch()">Start! 🐾</button>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--pink);font-weight:700;margin-top:8px">
+      The sneaky cat keeps running away! 😂
+    </p>`;
+}
+
+function startCatch(){
+  catchScore=0; catchTime=25; catchRunning=true;
+  const overlay=document.getElementById('gameOverlay');
+  if(overlay) overlay.remove();
+  const arena=document.getElementById('gameArena');
+
+  const cat=document.createElement('button');
+  cat.className='game-cat'; cat.id='gameCat'; cat.textContent='😹';
+  moveCatRandom(cat, arena);
+  arena.appendChild(cat);
+  cat.onclick=()=>{
+    if(!catchRunning) return;
+    catchScore++;
+    document.getElementById('cScore').textContent=catchScore;
+    moveCatRandom(cat, arena);
+    const f=document.createElement('div');
+    f.className='floatie'; f.textContent='+1 😸';
+    f.style.left=(20+Math.random()*55)+'%'; f.style.top='30%';
+    arena.appendChild(f);
+    setTimeout(()=>f.remove(),900);
+  };
+
+  catchTimer=setInterval(()=>{
+    catchTime--;
+    const el=document.getElementById('cTime');
+    if(el) el.textContent=catchTime+'s';
+    if(catchTime<=0){
+      clearInterval(catchTimer); catchRunning=false;
+      if(catchScore>catchBest) catchBest=catchScore;
+      cat.remove();
+      const msg=document.createElement('div');
+      msg.className='game-overlay';
+      msg.innerHTML=`
+        <span style="font-size:42px">🎉</span>
+        <p style="color:var(--deep);font-weight:800;font-size:15px;text-align:center;padding:0 12px">
+          You caught <strong>${catchScore}</strong> cats!<br>${catchScore>=15?"Wow that's incredible! 🏆":catchScore>=8?"Great job, speedy girl! 💕":"The cat was tricky, try again! 😄"}
+        </p>
+        <button class="btn-primary" onclick="renderCatch()">Play Again 🔄</button>`;
+      document.getElementById('gameArena').appendChild(msg);
+      document.getElementById('cBest').textContent=catchBest;
+    }
+  },1000);
+}
+
+function moveCatRandom(cat, arena){
+  cat.style.left=(4+Math.random()*78)+'%';
+  cat.style.top=(6+Math.random()*72)+'%';
+}
+
+/* ══════════════ COMFORT TIPS ══════════════ */
+function renderTips(){
+  mainPanel.innerHTML=`
+    <p class="panel-title">💆 Period Comfort Tips — Just for You 💪</p>
+    ${TIPS.map(t=>`<div class="tip-card"><span class="tip-icon">${t.icon}</span><span class="tip-text">${t.text}</span></div>`).join('')}
+    <div class="love-footer">
+      <div style="font-size:32px;margin-bottom:8px">🤍</div>
+      <div>
+        This is a tough day, but you are tougher.<br>
+        You are brave, you are beautiful, and you are never alone.<br>
+        <span style="font-size:13px;opacity:.9">I'll be right here, always. 💕 — Faiz</span>
+      </div>
+    </div>`;
+}
+
+/* ─────────────── INIT ─────────────── */
+renderPanel();
+</script>
+</body>
+</html>
